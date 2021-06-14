@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+
 /**
  * Represents a node in the binary tree.
  */
@@ -37,6 +38,7 @@ class TreeNode {
     }
 }
 
+
 /**
  * 
  */
@@ -44,8 +46,10 @@ public class NumberVisibleNodes {
 
 
     /**
-     * Display node values in a binary tree in order traversal. Recursive approach.
-     * !!! PART OF TEST SCAFFOLDING!!!
+     * Display node values in a binary tree in order traversal.
+     * Recursive approach.
+     * 
+     * !!! NOT PART OF SOLUTION !!!
      */
     static void inOrder(TreeNode root) {
         if (root != null) {
@@ -60,7 +64,6 @@ public class NumberVisibleNodes {
      * This method implements a breadth-first search traversal of a binary tree.
      * This method is iterative.
      * It displays all nodes at each level on a separate line.
-     * !!! PART OF TEST SCAFFOLDING!!!
      */
     static String bfsTraversal(TreeNode root) {
     
@@ -71,13 +74,13 @@ public class NumberVisibleNodes {
         List<TreeNode> currentQ = new LinkedList<TreeNode>();
         List<TreeNode> nextQ    = new LinkedList<TreeNode>();
     
-        // **** add the root node to the current queue ****
-        currentQ.add(root);
-    
         // ***** ****
         boolean allNulls = false;
 
-        // **** loop while the current queue has entries ****
+        // **** prime the queue ****
+        currentQ.add(root);
+
+        // **** loop while the queue is not empty ****
         while (!currentQ.isEmpty()) {
 
             // **** check if the queue only contains null nodes ****
@@ -141,7 +144,6 @@ public class NumberVisibleNodes {
     /**
      * Populate binary tree using values from a first breadth
      * search traversal.
-    * !!! PART OF TEST SCAFFOLDING!!!
      */
     static TreeNode populateTree(Integer[] arr) {
 
@@ -150,7 +152,7 @@ public class NumberVisibleNodes {
             return null;
         }
     
-        // **** ****
+        // **** initialization ****
         Queue<TreeNode> treeNodeQ   = new LinkedList<>();
         Queue<Integer> integerQ     = new LinkedList<>();
 
@@ -158,9 +160,6 @@ public class NumberVisibleNodes {
         for (int i = 1; i < arr.length; i++) {
             integerQ.offer(arr[i]);
         }
-
-        // ???? ????
-        // System.out.println("populateTree <<<  integerQ: " + integerQ.toString());
     
         // **** prime tree node queue ****
         TreeNode treeNode = new TreeNode(arr[0]);
@@ -187,10 +186,6 @@ public class NumberVisibleNodes {
                 current.right = right;
                 treeNodeQ.offer(right);
             }
-
-            // ???? ????
-            // System.out.println("populateTree <<<  integerQ: " + integerQ.toString());
-            // System.out.println("populateTree <<< treeNodeQ: " + treeNodeQ.toString());
         }
 
         // **** return binary tree ****
@@ -206,8 +201,7 @@ public class NumberVisibleNodes {
     static int visibleNodes(TreeNode root) {
 
         // **** base condition ****
-        if (root == null) 
-            return 0;
+        if (root == null) return 0;
 
         // **** recursive call(s) ****
         return Math.max(visibleNodes(root.left) + 1, visibleNodes(root.right) + 1);
@@ -215,7 +209,87 @@ public class NumberVisibleNodes {
 
 
     /**
+     * Given a binary tree, find its maximum depth.
+     * Recursive function O(log(n)).
+     */
+    static int maxDepth(TreeNode root) {
+        
+        // **** base condition ****
+        if (root == null)
+            return 0;
+
+        // **** initialize the BT max depth ****
+        int depth = 0;
+
+        // **** visit left node ****
+        depth = Math.max(depth, maxDepth(root.left) + 1);
+
+        // **** visit right node ****
+        depth = Math.max(depth, maxDepth(root.right) + 1);
+
+        // **** return the max depth ****
+        return depth;
+    }
+
+
+
+
+    /**
+     * 
+     */
+    static int levelOrderTraversal(TreeNode root) {
+
+        // **** ****
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        Queue<TreeNode> t = new LinkedList<TreeNode>();
+        int level = 0;
+
+        // **** prime q ****
+        q.add(root);
+
+        // **** loop while q is not empty ****
+        while (!q.isEmpty()) {
+ 
+            // **** remove head node ****
+            TreeNode tempNode = q.poll();
+            System.out.print(tempNode.val + " ");
+
+            // **** enqueue left child ****
+            if (tempNode.left != null)
+                t.add(tempNode.left);
+ 
+            // **** enqueue right child ****
+            if (tempNode.right != null)
+                t.add(tempNode.right);
+
+            // **** ****
+            if (q.isEmpty()) {
+
+                // ???? ????
+                System.out.println();
+
+                // **** ****
+                level++;
+
+                // **** swap queues ****
+                q = t;
+                t = new LinkedList<TreeNode>();
+            }
+        }
+
+        // **** ****
+        return level;
+    }
+ 
+
+
+
+
+
+    /**
      * Test scaffolding.
+     * 
+     * !!! NOT PART OF SOLUTION !!!
      * 
      * @throws IOException
      */
@@ -249,7 +323,14 @@ public class NumberVisibleNodes {
         System.out.println("main <<< bfs:");
         System.out.print(bfsTraversal(root));
 
-        // **** compute and display answer ****
+        // **** compute and display number of visible node ****
         System.out.println("main <<< visibleNodes: " + visibleNodes(root));
+
+        // **** find and display the depth of the BT ****
+        System.out.println("main <<<        depth: " + maxDepth(root));
+
+        // **** find and display level of BT ****
+        System.out.println("main <<< bfs (no null nodes): ");
+        System.out.println("main <<<        level: " + levelOrderTraversal(root));
     }
 }
