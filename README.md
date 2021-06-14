@@ -12,6 +12,12 @@ post on my web site:
 
 https://www.johncanessa.com/2020/12/04/number-of-visible-nodes/
 
+Due to some questions I have updated the code to better describe what I understood ad requirements.
+I also added a function to help i;llustrate what I believe the question and the requirements are.
+
+Of course, I might be mistaken and the requirements might represent something else.
+If that is the case; please let me know what the actual requirements for this problem are.
+
 Hope you enjoy solving the problem.
 
 Regards;
